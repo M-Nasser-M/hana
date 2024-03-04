@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "governorates",
+  "info": {
+    "singularName": "governorate",
+    "pluralName": "governorates",
+    "displayName": "governorate",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "governorate_name_ar": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "governorate_name_en": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "delivery": {
+      "type": "decimal"
+    },
+    "addresses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::address.address",
+      "mappedBy": "governorate"
+    }
+  }
+}

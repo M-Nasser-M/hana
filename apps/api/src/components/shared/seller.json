@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_shared_sellers",
+  "info": {
+    "displayName": "seller",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "info": {
+      "type": "richtext"
+    },
+    "avatar": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

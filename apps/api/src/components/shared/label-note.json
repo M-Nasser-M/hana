@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_shared_label_notes",
+  "info": {
+    "displayName": "label-note"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "note": {
+      "type": "string"
+    }
+  }
+}

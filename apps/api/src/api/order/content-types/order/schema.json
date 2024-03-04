@@ -1,0 +1,72 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "singularName": "order",
+    "pluralName": "orders",
+    "displayName": "order",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "total": {
+      "pluginOptions": {},
+      "type": "decimal",
+      "required": true
+    },
+    "estimated_delivery": {
+      "pluginOptions": {},
+      "type": "decimal"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "orders"
+    },
+    "payment_status": {
+      "pluginOptions": {},
+      "type": "enumeration",
+      "enum": [
+        "PENDING",
+        "SUCCESS",
+        "DECLINED"
+      ]
+    },
+    "paymob_order_id": {
+      "pluginOptions": {},
+      "type": "biginteger",
+      "unique": true
+    },
+    "paymob_transaction_id": {
+      "pluginOptions": {},
+      "type": "biginteger",
+      "unique": true
+    },
+    "order_items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order-item.order-item",
+      "mappedBy": "order"
+    },
+    "address": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::address.address",
+      "inversedBy": "orders"
+    },
+    "order_status": {
+      "type": "enumeration",
+      "enum": [
+        "ACCEPTED",
+        "PREPARED",
+        "OUT FOR DELIVERY",
+        "DELIVERED",
+        "CANCELED"
+      ]
+    }
+  }
+}

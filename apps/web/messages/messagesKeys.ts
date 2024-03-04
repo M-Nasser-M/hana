@@ -1,0 +1,14 @@
+export const homeKeys = ["featuredproducts"] as const;
+export type homeTranslations = Record<typeof homeKeys[number],string>
+export const navbarKeys = ["aboutus","blog","cart","cart&checkout","home","profile","signin","signout","store"] as const;
+export type navbarTranslations = Record<typeof navbarKeys[number],string>
+export const storeKeys = ["addtocart","currency","instock","outofstock"] as const;
+export type storeTranslations = Record<typeof storeKeys[number],string>
+export const commonKeys = [] as const;
+export type commonTranslations = Record<typeof commonKeys[number],string>
+export const profileKeys = ["addaddress","addresses","addressname","apartmentno","building","cancel","city","delete","deleteaddress","deleteaddressconfirmation","details","district","editaddress","edituserinfo","email","firstname","floor","governorate","lastname","orderno","orders","orderstatus","phone","street","total","username"] as const;
+export type profileTranslations = Record<typeof profileKeys[number],string>
+export const cartKeys = ["cartempty","checkout","continueshopping","instock","name","notloggedin","outofstock","pleaselogintoproceedwithyourorder","price","proceedtocheckout","quantity","remove","reviewitems","shoppingcart","total"] as const;
+export type cartTranslations = Record<typeof cartKeys[number],string>
+export const checkoutKeys = ["card","cash","mobilewallet","name","ordersummary","paymentdetails","placeorder","shipping","shippingdetails","subtotal","tax","total"] as const;
+export type checkoutTranslations = Record<typeof checkoutKeys[number],string>

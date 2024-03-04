@@ -1,9 +1,18 @@
-import { createServer } from "./server";
-import { log } from "@repo/logger";
+export default {
+  /**
+   * An asynchronous register function that runs before
+   * your application is initialized.
+   *
+   * This gives you an opportunity to extend code.
+   */
+  register(/*{ strapi }*/) {},
 
-const port = process.env.PORT || 3001;
-const server = createServer();
-
-server.listen(port, () => {
-  log(`api running on ${port}`);
-});
+  /**
+   * An asynchronous bootstrap function that runs before
+   * your application gets started.
+   *
+   * This gives you an opportunity to set up your data model,
+   * run jobs, or perform some special logic.
+   */
+  bootstrap(/*{ strapi }*/) {},
+};

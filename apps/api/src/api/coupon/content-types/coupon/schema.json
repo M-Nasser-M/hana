@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "coupons",
+  "info": {
+    "singularName": "coupon",
+    "pluralName": "coupons",
+    "displayName": "coupon"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "coupon": {
+      "type": "string"
+    },
+    "expiration_date": {
+      "type": "date"
+    },
+    "discount_percentage": {
+      "type": "decimal"
+    },
+    "discount_amount": {
+      "type": "decimal"
+    },
+    "expired": {
+      "type": "boolean"
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "kind": "collectionType",
+  "collectionName": "addresses",
+  "info": {
+    "singularName": "address",
+    "pluralName": "addresses",
+    "displayName": "address",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "building": {
+      "type": "string",
+      "required": true
+    },
+    "apartment_no": {
+      "type": "string"
+    },
+    "street": {
+      "type": "string",
+      "required": true
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "addresses"
+    },
+    "first_name": {
+      "type": "string",
+      "required": true
+    },
+    "last_name": {
+      "type": "string",
+      "required": true
+    },
+    "floor": {
+      "type": "integer",
+      "required": false
+    },
+    "orders": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order.order",
+      "mappedBy": "address"
+    },
+    "details": {
+      "type": "text"
+    },
+    "phone": {
+      "type": "string",
+      "minLength": 11,
+      "maxLength": 11,
+      "regex": "^[0-9]+$",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "minLength": 3
+    },
+    "district": {
+      "type": "string",
+      "required": true
+    },
+    "governorate": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::governorate.governorate",
+      "inversedBy": "addresses"
+    }
+  }
+}
