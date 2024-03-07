@@ -147,7 +147,8 @@
         }
       },
       "type": "uid",
-      "required": true
+      "required": true,
+      "targetField": "name"
     },
     "cart_item": {
       "type": "relation",

@@ -12,7 +12,7 @@ export default function LanguageSwitcher() {
 
   const handleChange = (newLocale: Locale) => {
     if (
-      !currentPathname.includes("store/") ||
+      !currentPathname.includes("store/") &&
       !currentPathname.includes("blog/")
     ) {
       router.push(
@@ -34,7 +34,7 @@ export default function LanguageSwitcher() {
     router.push(
       currentPathname
         .replace(`/${currentLocale}`, `/${newLocale}`)
-        .slice(0, currentLocale.length * -1)
+        .slice(0, currentLocale.length * -1 - 1)
     );
     router.refresh();
     return;

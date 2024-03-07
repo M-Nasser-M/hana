@@ -38,7 +38,7 @@ export default async function Page({ params: { locale } }: Props) {
 
   const [catResponse, featuredResponse] = await Promise.all([
     getCategoriesData(),
-    getFeaturedProducts(),
+    getFeaturedProducts(locale),
   ]);
 
   const [validatedCat, validatedFeatured] = [
@@ -50,7 +50,7 @@ export default async function Page({ params: { locale } }: Props) {
 
   const Products: ProductSearchResponseElement[] =
     validatedFeatured.output.hits.filter(
-      (product) => Number(product.availableStock) > 0
+      (product) => +product.availableStock > 0
     );
 
   return (

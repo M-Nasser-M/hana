@@ -22,7 +22,7 @@ import {
   SellerSchema,
   SeoSchema,
 } from "./sharedTypes";
-import { CategorySchema, SubCategorySchema } from "./categories";
+import { CategoryDataSchema, SubCategoryDataSchema } from "./categories";
 
 export const FilterableFieldsSchema = union([
   literal(`locale = ${string()}`),
@@ -47,8 +47,11 @@ export const ProductDataSchema = object({
   updatedAt: coerce(date(), (input) => new Date(input as string)),
   publishedAt: coerce(date(), (input) => new Date(input as string)),
   locale: LocaleSchema,
-  categories: union([array(CategorySchema), array(CategorySchema)]),
-  subcategories: union([array(SubCategorySchema), array(SubCategorySchema)]),
+  categories: union([array(CategoryDataSchema), array(CategoryDataSchema)]),
+  subcategories: union([
+    array(SubCategoryDataSchema),
+    array(SubCategoryDataSchema),
+  ]),
   slug: string(),
   images: optional(nullable(array(ImageSchema))),
   cover: ImageSchema,

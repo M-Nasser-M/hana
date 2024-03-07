@@ -80,19 +80,19 @@ export async function getProductUsingSlug(slug: string) {
   }
 }
 
-const defaultReqBodyFeatured: ProductSearchRequestBody = {
+export const defaultReqBodyFeatured =(locale:Locale) : ProductSearchRequestBody => ({
   q: "",
   attributesToRetrieve: defaultAttributesToRetrieve,
-  filter: ["featured = true"],
+  filter: ["featured = true",`locale = ${locale}`],
   hitsPerPage: defaultPageSize,
   page: 1,
-};
+});
 
-export async function getFeaturedProducts(
+export async function getFeaturedProducts(locale:Locale,
   reqObject?: ProductSearchRequestBody
 ) {
   const reqBody: ProductSearchRequestBody = {
-    ...defaultReqBodyFeatured,
+    ...defaultReqBodyFeatured(locale),
     ...reqObject,
   };
 
