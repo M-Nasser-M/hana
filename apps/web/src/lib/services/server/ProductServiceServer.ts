@@ -80,15 +80,18 @@ export async function getProductUsingSlug(slug: string) {
   }
 }
 
-export const defaultReqBodyFeatured =(locale:Locale) : ProductSearchRequestBody => ({
+export const defaultReqBodyFeatured = (
+  locale: Locale
+): ProductSearchRequestBody => ({
   q: "",
   attributesToRetrieve: defaultAttributesToRetrieve,
-  filter: ["featured = true",`locale = ${locale}`],
+  filter: ["featured = true", `locale = ${locale}`],
   hitsPerPage: defaultPageSize,
   page: 1,
 });
 
-export async function getFeaturedProducts(locale:Locale,
+export async function getFeaturedProducts(
+  locale: Locale,
   reqObject?: ProductSearchRequestBody
 ) {
   const reqBody: ProductSearchRequestBody = {
@@ -102,6 +105,40 @@ export async function getFeaturedProducts(locale:Locale,
       reqBody
     );
     return products;
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : "error fetching");
+    return null;
+  }
+}
+
+export async function decrementAvailableStockUsingId(
+  id: number,
+  locale: Locale
+) {
+  try {
+    const response = await serverApiAuth.put<Product>(
+      `/products/decrementusingid/${id}`,
+      { locale }
+    );
+
+    return response;
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : "error fetching");
+    return null;
+  }
+}
+
+export async function decrementAvailableStockUsingSlug(
+  slug: string,
+  locale: Locale
+) {
+  try {
+    const response = await serverApiAuth.put<Product>(
+      `/products/decrementusingslug/${slug}`,
+      { locale }
+    );
+
+    return response;
   } catch (error) {
     console.error(error instanceof Error ? error.message : "error fetching");
     return null;

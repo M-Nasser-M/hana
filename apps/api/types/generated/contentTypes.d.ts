@@ -1510,7 +1510,14 @@ export interface ApiProductProduct extends Schema.CollectionType {
         i18n: {
           localized: false;
         };
-      }>;
+      }> &
+      Attribute.SetMinMax<
+        {
+          min: '0';
+        },
+        string
+      > &
+      Attribute.DefaultTo<'0'>;
     seller: Attribute.Component<'shared.seller'> &
       Attribute.SetPluginOptions<{
         i18n: {
@@ -1527,13 +1534,27 @@ export interface ApiProductProduct extends Schema.CollectionType {
         i18n: {
           localized: false;
         };
-      }>;
+      }> &
+      Attribute.SetMinMax<
+        {
+          min: '0';
+        },
+        string
+      > &
+      Attribute.DefaultTo<'0'>;
     soldStock: Attribute.BigInteger &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: false;
         };
-      }>;
+      }> &
+      Attribute.SetMinMax<
+        {
+          min: '0';
+        },
+        string
+      > &
+      Attribute.DefaultTo<'0'>;
     slug: Attribute.UID<'api::product.product', 'name'> &
       Attribute.Required &
       Attribute.SetPluginOptions<{

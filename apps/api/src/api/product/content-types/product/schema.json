@@ -106,7 +106,9 @@
         }
       },
       "type": "biginteger",
-      "required": true
+      "required": true,
+      "default": "0",
+      "min": "0"
     },
     "seller": {
       "type": "component",
@@ -130,7 +132,9 @@
           "localized": false
         }
       },
-      "type": "biginteger"
+      "type": "biginteger",
+      "default": "0",
+      "min": "0"
     },
     "soldStock": {
       "pluginOptions": {
@@ -138,7 +142,9 @@
           "localized": false
         }
       },
-      "type": "biginteger"
+      "type": "biginteger",
+      "min": "0",
+      "default": "0"
     },
     "slug": {
       "pluginOptions": {

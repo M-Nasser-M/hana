@@ -10,9 +10,8 @@
     "lint": "turbo run lint",
     "test": "turbo run test"
   },
-  "dependencies": {},
   "devDependencies": {
-    "turbo": "latest"
+    "turbo": "^1.12.5"
   },
   "engines": {
     "node": ">=18.0.0",

@@ -1,6 +1,10 @@
 "use server";
 
+import { decrementAvailableStockUsingSlug } from "../server/ProductServiceServer";
+import type { Locale, Session } from "@/lib/types/sharedTypes";
 import type { localStorageCartItems } from "@/lib/types/cart";
+import { serverApiAuth } from "../server/ServerApi";
+import { AddressData } from "@/lib/types/address";
 import {
   PaymenetStatusEnum,
   type Order,
@@ -8,19 +12,17 @@ import {
   OrderStatusEnum,
   OrderSummary,
 } from "@/lib/types/order";
-import type { Session } from "@/lib/types/sharedTypes";
-import { serverApiAuth } from "../server/ServerApi";
-import { AddressData } from "@/lib/types/address";
 
 export async function createOrder(
   cartItems: localStorageCartItems,
   session: Session,
   paymob_order_id: number,
   orderSummary: OrderSummary,
-  addressData: AddressData
+  addressData: AddressData,
+  locale: Locale
 ) {
   try {
-    const orderItems = await createOrderItems(cartItems);
+    const orderItems = await createOrderItems(cartItems, locale);
     if (!orderItems) throw new Error("order items Creation Error");
     const orderItemsIDS = orderItems.map((item) => item.data.id);
     const response = await serverApiAuth.post<Order>("/orders", {
@@ -43,15 +45,25 @@ export async function createOrder(
   }
 }
 
-export async function createOrderItems(cartItems: localStorageCartItems) {
+export async function createOrderItems(
+  cartItems: localStorageCartItems,
+  locale: Locale
+) {
   try {
-    const promises = cartItems.map(async (item) => {
+    const orderItemsPromises = cartItems.map(async (item) => {
       return serverApiAuth.post<OrderItem>("/order-items", {
         product: item.product.id,
         quantity: item.quantity,
       });
     });
-    const response = await Promise.all(promises);
+    const response = await Promise.all(orderItemsPromises);
+
+    const stockPromises = cartItems.map((item) => {
+      return decrementAvailableStockUsingSlug(item.product.slug, locale);
+    });
+
+    await Promise.all(stockPromises);
+
     return response;
   } catch (error) {
     console.error(
