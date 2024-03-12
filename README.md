@@ -1,1 +1,1 @@
-# Injitial commit for hana store
+# Initial commit for hana store
