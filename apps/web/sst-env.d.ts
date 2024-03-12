@@ -1,1 +1,1 @@
-/// <reference path="./.sst/types/index.ts" />
+/// <reference path="../../packages/aws_sst/.sst/types/index.ts" />

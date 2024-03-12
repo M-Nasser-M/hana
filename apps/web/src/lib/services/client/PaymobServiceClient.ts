@@ -14,7 +14,7 @@ import {
   PaymobPaymentKeysResponseSchema,
 } from "@/lib/types/paymob";
 import { parse } from "valibot";
-import type { Locale, Phone, Session } from "@/lib/types/sharedTypes";
+import type { Phone, Session } from "@/lib/types/sharedTypes";
 import type { localStorageCartItems } from "@/lib/types/cart";
 import { createOrder } from "../serverActions/OrdersActions";
 import { OrderSummary } from "@/lib/types/order";
@@ -81,8 +81,7 @@ export async function paymobAuthProcess(
   cartItems: localStorageCartItems,
   session: Session,
   orderSummary: OrderSummary,
-  addressData: AddressData,
-  locale: Locale
+  addressData: AddressData
 ): Promise<PaymobAuthProcess> {
   const authResponse = await authenticatePaymob();
 
@@ -130,8 +129,7 @@ export async function paymobAuthProcess(
     session,
     validatedOrderResponse.id,
     orderSummary,
-    addressData,
-    locale
+    addressData
   );
 
   return {
@@ -160,8 +158,7 @@ export async function getCardPaymentLink(
   cartItems: localStorageCartItems,
   session: Session,
   orderSummary: OrderSummary,
-  addressData: AddressData,
-  locale: Locale
+  addressData: AddressData
 ) {
   try {
     const { paymentKeyResponse } = await paymobAuthProcess(
@@ -171,8 +168,7 @@ export async function getCardPaymentLink(
       cartItems,
       session,
       orderSummary,
-      addressData,
-      locale
+      addressData
     );
     return clientEnv.NEXT_PUBLIC_PAYMOB_IFRAME_URL.replace(
       "IFRAME_ID_PLACEHOLDER",
@@ -191,8 +187,7 @@ export async function getMobilePaymentLink(
   cartItems: localStorageCartItems,
   session: Session,
   orderSummary: OrderSummary,
-  addressData: AddressData,
-  locale: Locale
+  addressData: AddressData
 ) {
   try {
     const { paymentKeyResponse } = await paymobAuthProcess(
@@ -202,8 +197,7 @@ export async function getMobilePaymentLink(
       cartItems,
       session,
       orderSummary,
-      addressData,
-      locale
+      addressData
     );
 
     const mobileWalletResponse = await getMobileWalletPaymentResponse({

@@ -18,7 +18,6 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { safeParse } from "valibot";
 import { PhoneSchema } from "@/lib/types/sharedTypes";
-import { useGetLocalFromPathname } from "@/lib/hooks/useGetLocaleFromPathname";
 
 type Props = { translations: checkoutTranslations };
 
@@ -29,8 +28,6 @@ const OrderSummary = ({ translations }: Props) => {
   const session = useAtomValue(sessionAtom);
   const mobileWallet = useAtomValue(mobileWalletAtom);
   const cartItems = useAtomValue(cartAtom);
-
-  const locale = useGetLocalFromPathname();
 
   const router = useRouter();
 
@@ -78,8 +75,7 @@ const OrderSummary = ({ translations }: Props) => {
         cartItems,
         session,
         orderSummary,
-        shippingDetails,
-        locale
+        shippingDetails
       );
       if (response) router.push(response);
     }
@@ -99,8 +95,7 @@ const OrderSummary = ({ translations }: Props) => {
         cartItems,
         session,
         orderSummary,
-        shippingDetails,
-        locale
+        shippingDetails
       );
       if (response) router.push(response.redirect_url);
     }

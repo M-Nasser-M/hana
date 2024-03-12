@@ -3,6 +3,8 @@ version: "3"
 services:
   web:
     container_name: web
+    env_file:
+      - ./apps/web/.env.local
     build:
       context: .
       dockerfile: ./apps/web/Dockerfile
@@ -13,12 +15,26 @@ services:
       - app_network
   api:
     container_name: api
+    env_file:
+      - ./apps/api/.env
     build:
       context: .
       dockerfile: ./apps/api/Dockerfile
     restart: always
     ports:
       - 1337:1337
+    networks:
+      - app_network
+  meilisearch:
+    container_name: search
+    env_file:
+      - ./apps/meilisearch/.env.dev
+    build: 
+      context: .
+      dockerfile: ./apps/meilisearch/Dockerfile
+    restart: always
+    ports:
+      - 7700:7700
     networks:
       - app_network
 

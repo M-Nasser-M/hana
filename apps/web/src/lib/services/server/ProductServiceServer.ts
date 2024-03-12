@@ -111,31 +111,11 @@ export async function getFeaturedProducts(
   }
 }
 
-export async function decrementAvailableStockUsingId(
-  id: number,
-  locale: Locale
-) {
+export async function decrementAvailableStockUsingId(id: number) {
   try {
     const response = await serverApiAuth.put<Product>(
       `/products/decrementusingid/${id}`,
-      { locale }
-    );
-
-    return response;
-  } catch (error) {
-    console.error(error instanceof Error ? error.message : "error fetching");
-    return null;
-  }
-}
-
-export async function decrementAvailableStockUsingSlug(
-  slug: string,
-  locale: Locale
-) {
-  try {
-    const response = await serverApiAuth.put<Product>(
-      `/products/decrementusingslug/${slug}`,
-      { locale }
+      {}
     );
 
     return response;
