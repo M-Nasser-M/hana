@@ -1,45 +1,88 @@
-version: "3"
+version: "3.9"
 
 services:
   web:
     container_name: web
-    env_file:
-      - ./apps/web/.env.local
     build:
-      context: .
-      dockerfile: ./apps/web/Dockerfile
-    restart: always
+      context: ./apps/web/
+      dockerfile: Dockerfile
+    restart: unless-stopped
     ports:
       - 3000:3000
     networks:
-      - app_network
-  api:
-    container_name: api
-    env_file:
-      - ./apps/api/.env
+      - hana_network
+
+  strapi:
+    container_name: strapi
+    environment:
+      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      # DATABASE_URL: ${DATABASE_URL}
+      DATABASE_HOST: strapiDB
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_SSL: ${DATABASE_SSL}
+      CLOUDINARY_NAME: ${CLOUDINARY_NAME}
+      CLOUDINARY_KEY: ${CLOUDINARY_KEY}
+      CLOUDINARY_SECRET: ${CLOUDINARY_SECRET}
+      HOST: ${HOST}
+      PORT: ${PORT}
+      APP_KEYS: ${APP_KEYS}
+      API_TOKEN_SALT: ${API_TOKEN_SALT}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
+      JWT_SECRET: ${JWT_SECRET}
+      PUBLIC_URL: ${PUBLIC_URL}
+      MEILI_HOST: ${MEILI_HOST}
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
     build:
-      context: .
-      dockerfile: ./apps/api/Dockerfile
-    restart: always
+      context: ./apps/api
+      dockerfile: Dockerfile
+    restart: unless-stopped
     ports:
       - 1337:1337
     networks:
-      - app_network
+      - hana_network
+    depends_on:
+      - strapiDB
+      - meilisearch
+
+  strapiDB:
+    container_name: strapiDB
+    platform: linux/amd64 #for platform error on Apple M1 chips
+    restart: unless-stopped
+    image: postgres:16.2-alpine3.19
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - strapi-data:/var/lib/postgresql/data/ #using a volume
+      #- ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
+    ports:
+      - "5432:5432"
+    networks:
+      - hana_network
+
   meilisearch:
-    container_name: search
-    env_file:
-      - ./apps/meilisearch/.env.dev
-    build: 
-      context: .
-      dockerfile: ./apps/meilisearch/Dockerfile
-    restart: always
+    container_name: meilisearch
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+    build:
+      context: ./apps/meilisearch/
+      dockerfile: Dockerfile
+    restart: unless-stopped
     ports:
       - 7700:7700
     networks:
-      - app_network
+      - hana_network
 
-# Define a network, which allows containers to communicate
-# with each other, by using their container name as a hostname
+volumes:
+  strapi-data:
+
+    # Define a network, which allows containers to communicate
+    # with each other, by using their container name as a hostname
 networks:
-  app_network:
+  hana_network:
     external: true

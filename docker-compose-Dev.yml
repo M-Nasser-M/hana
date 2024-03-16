@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+
+  meilisearch:
+    container_name: meilisearch
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+    build:
+      context: ./apps/meilisearch/
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - '7700:7700'
+    networks:
+      - hana_network
+
+networks:
+  hana_network:
+    external: true

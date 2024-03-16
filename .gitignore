@@ -57,5 +57,7 @@ next-env.d.ts
 .strapi-updater.json
 
 #ssl
+ssl
+ssl*
 .ssl
 .ssl*
