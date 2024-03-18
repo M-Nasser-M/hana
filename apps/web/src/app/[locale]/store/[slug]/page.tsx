@@ -55,13 +55,12 @@ const Page = async ({ params: { slug, locale } }: Props) => {
           quantity={1}
           product={validatedData.output.data}
         />
-        <Text
+        <article
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: validatedData.output.data.details!,
           }}
-          size="7"
-          as="div"
+          className="prose prose-slate dark:prose-invert md:prose-lg lg:prose-xl"
         />
       </Flex>
     </Flex>

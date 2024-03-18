@@ -33,7 +33,7 @@ export const CategoryDataSchema = object({
   updatedAt: coerce(date(), (input) => new Date(input as string)),
 });
 
-export type Category = Output<typeof CategoryDataSchema>;
+export type CategoriesData = Output<typeof CategoryDataSchema>;
 
 export const CategoriesSchema = object({
   data: array(CategoryDataSchema),

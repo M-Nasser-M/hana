@@ -2,7 +2,6 @@
 import { handleAddClientParamsRoute } from "@/lib/utils/handleClientParams";
 import { Button, Flex, ScrollArea, Select, Text } from "@radix-ui/themes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Category, SubCategory, categories } from "@/lib/types/product";
 import { searchEffectAtom } from "@/lib/atoms/searchEffectAtom";
 import { Check, ListFilter, XCircle } from "lucide-react";
 import * as Checkbox from "@radix-ui/react-checkbox";
@@ -15,8 +14,14 @@ import {
   storeSelectedFiltersAtom,
   storeSortAtom,
 } from "@/lib/atoms/storeAtoms";
+import { CategoriesData } from "@/lib/types/categories";
+import { useGetLocalFromPathname } from "@/lib/hooks/useGetLocaleFromPathname";
 
-const FilterSort = () => {
+type Props = {
+  categories: CategoriesData[];
+};
+
+const FilterSort = ({ categories }: Props) => {
   useAtom(searchEffectAtom);
   const [activeFilterValue, setActiveFilterValue] = useAtom(
     storeActiveFilterAtom
@@ -25,6 +30,7 @@ const FilterSort = () => {
   const [storeSelectedFilters, setStoreSelectedFilters] = useAtom(
     storeSelectedFiltersAtom
   );
+  const locale = useGetLocalFromPathname();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -41,10 +47,7 @@ const FilterSort = () => {
     );
   };
 
-  const handleFilter = (
-    checked: Checkbox.CheckedState,
-    filter: Category | SubCategory
-  ) => {
+  const handleFilter = (checked: Checkbox.CheckedState, filter: string) => {
     if (checked) {
       setStoreSelectedFilters(
         changeFilterCheckPure(storeSelectedFilters, filter, true)
@@ -97,9 +100,9 @@ const FilterSort = () => {
                   <Flex mt="4" gap="2">
                     <Checkbox.Root
                       onCheckedChange={(checked) =>
-                        handleFilter(checked, category.key)
+                        handleFilter(checked, category.name_en)
                       }
-                      checked={storeSelectedFilters[category.key].checked}
+                      checked={storeSelectedFilters[category.name_en].checked}
                       className=" data-[state=unchecked]:border-2 data-[state=unchecked]:border-accent-9 data-[state=checked]:bg-accent-9  flex h-6 w-6   items-center justify-center rounded-3 "
                     >
                       <Checkbox.Indicator className="text-crimson-9-contrast">
@@ -107,18 +110,19 @@ const FilterSort = () => {
                       </Checkbox.Indicator>
                     </Checkbox.Root>
                     <Text size="4" as="label">
-                      {category.key}
+                      {locale === "en" ? category.name_en : category.name_ar}
                     </Text>
                   </Flex>
-                  {category.subCategories.length > 0 &&
-                    category.subCategories.map((subcategory, index) => (
+                  {category.subcategories &&
+                    category.subcategories.length > 0 &&
+                    category.subcategories.map((subcategory, index) => (
                       <Flex ml="4" key={index} mt="4" gap="2">
                         <Checkbox.Root
                           onCheckedChange={(checked) =>
-                            handleFilter(checked, subcategory.key)
+                            handleFilter(checked, subcategory.name_en)
                           }
                           checked={
-                            storeSelectedFilters[subcategory.key].checked
+                            storeSelectedFilters[subcategory.name_en].checked
                           }
                           className=" data-[state=unchecked]:border-2 data-[state=unchecked]:border-accent-9 data-[state=checked]:bg-accent-9  flex h-6 w-6   items-center justify-center rounded-3 "
                         >
@@ -127,7 +131,9 @@ const FilterSort = () => {
                           </Checkbox.Indicator>
                         </Checkbox.Root>
                         <Text size="4" as="label">
-                          {subcategory.key}
+                          {locale === "en"
+                            ? subcategory.name_en
+                            : subcategory.name_ar}
                         </Text>
                       </Flex>
                     ))}

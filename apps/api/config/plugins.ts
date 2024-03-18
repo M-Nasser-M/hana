@@ -44,10 +44,19 @@ module.exports = ({ env }) => ({
   },
   meilisearch: {
     config: {
-      // Your meili host
       host: env("MEILI_HOST"),
-      // Your master key or private key
       apiKey: env("MEILI_MASTER_KEY"),
+      product: {
+        settings: {
+          filterableAttributes: [
+            "locale",
+            "categories.name_en",
+            "subcategories.name_en",
+            "featured",
+          ],
+          sortableAttributes: ["createdat", "updatedat", "price"],
+        },
+      },
     },
   },
   upload: {

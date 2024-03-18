@@ -4,7 +4,7 @@ import { Locale, SessionSchema } from "@/lib/types/sharedTypes";
 import { options } from "../api/auth/[...nextauth]/authOtions";
 import Providers from "@/components/providers/Providers";
 import Navbar from "@/components/navbar/Navbar";
-import { Container } from "@radix-ui/themes";
+import { Container, Flex } from "@radix-ui/themes";
 import { getServerSession } from "next-auth";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
@@ -15,6 +15,7 @@ import { locales } from "@/i18n";
 
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import Footer from "@/components/footer/Footer";
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale: locale }));
@@ -53,14 +54,19 @@ export default async function RootLayout({
     >
       <body>
         <Providers dir={dir}>
-          <Navbar
-            session={validatedSession.success ? validatedSession.output : null}
-            translations={translations}
-          />
-          <Container size="4" mb="9">
-            {children}
-            <Toaster />
-          </Container>
+          <Flex direction="column" className="min-h-screen">
+            <Navbar
+              session={
+                validatedSession.success ? validatedSession.output : null
+              }
+              translations={translations}
+            />
+            <Container className="min-h-full" size="4" mb="9">
+              {children}
+              <Toaster />
+            </Container>
+            <Footer />
+          </Flex>
         </Providers>
       </body>
     </html>

@@ -1,4 +1,4 @@
-import { Input, coerce, date, number, object, string } from "valibot";
+import { Input, coerce, date, nullable, number, object, string } from "valibot";
 import { MetaSchema, SeoSchema } from "./sharedTypes";
 
 export const MainPageDataSchema = object({
@@ -45,3 +45,22 @@ export const HomePageSchema = object({
 });
 
 export type MainPage = Input<typeof HomePageSchema>;
+
+export const ArticleAndSeoDataSchema = object({
+  id: number(),
+  article: nullable(string()),
+  createdAt: coerce(date(), (input) => new Date(input as string)),
+  updatedAt: coerce(date(), (input) => new Date(input as string)),
+  publishedAt: coerce(date(), (input) => new Date(input as string)),
+  locale: string(),
+  seo: SeoSchema,
+});
+
+export type ArticleAndSeoData = Input<typeof ArticleAndSeoDataSchema>;
+
+export const ArticleAndSeoSchema = object({
+  data: ArticleAndSeoDataSchema,
+  meta: MetaSchema,
+});
+
+export type ArticleAndSeo = Input<typeof ArticleAndSeoSchema>;

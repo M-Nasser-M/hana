@@ -1,5 +1,5 @@
-import { MainPage } from "@/lib/types/mainPages";
-import { Locale } from "@/lib/types/sharedTypes";
+import type { MainPage } from "@/lib/types/mainPages";
+import type { Locale } from "@/lib/types/sharedTypes";
 import { serverApiAuth } from "./ServerApi";
 import qs from "qs";
 

@@ -142,8 +142,6 @@ export async function paymobAuthProcess(
 export async function getMobileWalletPaymentResponse(
   paymobMobileWalletPayload: PaymobMobileWalletPayload
 ) {
-  console.log(paymobMobileWalletPayload);
-
   const response = await clientApi.post<PaymobMobileWalletResponse>(
     clientEnv.NEXT_PUBLIC_PAYMOB_MOBILE_PAY_URL,
     paymobMobileWalletPayload

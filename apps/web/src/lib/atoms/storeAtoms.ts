@@ -5,11 +5,6 @@ import type {
   FilterableFields,
   ProductSearchResponse,
 } from "@/lib/types/product";
-import {
-  SubCategory,
-  filterDefaultCheckStatus,
-  Category,
-} from "@/lib/types/product";
 
 export const storeProductListAtom = atom<ProductSearchResponse | null>(null);
 
@@ -28,24 +23,27 @@ export const currentStorePageAtom = atom<number>(1);
 
 export const storeActiveFilterAtom = atom<FilterableFields[]>([]);
 
-export const storeSelectedFiltersAtom = atom(filterDefaultCheckStatus);
+export const storeSelectedFiltersAtom = atom<
+  Record<
+    string,
+    {
+      checked: boolean;
+      filter: FilterableFields;
+    }
+  >
+>({});
 
 export const writeStoreSelectedFiltersAtom = atom(
   null,
   (get, set, values: string[]) => {
     for (const value of values) {
       const filter = value.match(/'([^']+)'/);
-      if (
-        filter &&
-        [...Object.values(Category), ...Object.values(SubCategory)].includes(
-          filter[1] as Category | SubCategory
-        )
-      ) {
+      if (filter && filter[1]) {
         set(
           storeSelectedFiltersAtom,
           changeFilterCheckPure(
             get(storeSelectedFiltersAtom),
-            filter ? (filter[1] as Category | SubCategory) : null,
+            filter ? (filter[1] as string) : null,
             true
           )
         );

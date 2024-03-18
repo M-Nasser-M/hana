@@ -15,6 +15,7 @@ import {
   ProductSearchResponseSchema,
 } from "@/lib/types/product";
 import NextLink from "@/components/NextLink";
+import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
 
 type Props = {
   params: { locale: Locale };
@@ -55,16 +56,30 @@ export default async function Page({ params: { locale } }: Props) {
 
   return (
     <Flex direction="column" gap="4">
-      <Heading
-        className="text-crimsonA-9 animate-bounce"
-        weight="bold"
-        size="9"
-        align="center"
-        mb="4"
-        as="h1"
-      >
-        Hana Store
-      </Heading>
+      <Flex direction="column" justify="center" align="center">
+        <TypewriterEffectSmooth
+          duration={1}
+          delay={0.5}
+          className="text-9"
+          words={[
+            {
+              text: "Hana",
+              className:
+                "text-transparent bg-clip-text bg-gradient-to-r from-accent-8 to-accent-11",
+            },
+          ]}
+        />
+        <TypewriterEffectSmooth
+          delay={2}
+          className="text-7"
+          words={[
+            { text: "Where" },
+            { text: "Happiness" },
+            { text: "Resides" },
+          ]}
+        />
+      </Flex>
+
       <Flex px="4" gap="4" wrap="wrap" justify="center" align="center">
         {validatedCat.output.data.map((category) => (
           <Card asChild key={category.id}>

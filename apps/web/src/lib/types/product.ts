@@ -22,7 +22,11 @@ import {
   SellerSchema,
   SeoSchema,
 } from "./sharedTypes";
-import { CategoryDataSchema, SubCategoryDataSchema } from "./categories";
+import {
+  CategoriesData,
+  CategoryDataSchema,
+  SubCategoryDataSchema,
+} from "./categories";
 
 export const FilterableFieldsSchema = union([
   literal(`locale = ${string()}`),
@@ -129,71 +133,42 @@ export const ProductSearchResponseSchema = object({
 
 export type ProductSearchResponse = Input<typeof ProductSearchResponseSchema>;
 
-export enum Category {
-  Art_Supplies = "Art Supplies",
-  Hobbies = "Hobbies",
-  Art_Journaling = "Art Journaling",
-  Handmade_Gifts = "Handmade Gifts",
-  Clearance = "Clearance",
-}
-
-export enum SubCategory {
-  Pens_Pencils_and_Paints = "Pens Pencils and Paints",
-  Brushes_and_Tools = "Brushes and Tools",
-  Canvas_and_Sketchbooks = "Canvas and Sketchbooks",
-  Diamond_Painting = "Diamond Painting",
-  Coloring_Books = "Coloring Books",
-  Puzzles = "Puzzles",
-  Washi_Tapes_and_Stickers = "Washi Tapes and Stickers",
-  Paper_Packs_and_Ephemra = "Paper Packs and Ephemra",
-  Wax_Boxes_and_Tools = "Wax Boxes and Tools",
-}
-
-export const filterDefaultCheckStatus = [
-  ...Object.values(SubCategory),
-  ...Object.values(Category),
-].reduce(
-  (obj, key) => {
-    const filter = Object.values(Category).includes(key as never)
-      ? `categories.name_en = '${key}'`
-      : `subcategories.name_en = '${key}'`;
-    return {
-      ...obj,
-      [key]: { checked: false, filter },
+export const filterDefaultCheckStatus = (categories: CategoriesData[]) => {
+  return categories.reduce((obj, category) => {
+    const categoryObj = {
+      [category.name_en]: {
+        checked: false,
+        filter: `categories.name_en = '${category.name_en}'`,
+      },
     };
-  },
-  {} as Record<
-    SubCategory | Category,
-    { checked: boolean; filter: FilterableFields }
-  >
-);
 
-function createCategory(key: Category, subCategories: SubCategory[] = []) {
-  return {
-    key,
-    subCategories: subCategories.map((subKey) => ({ key: subKey })),
-  };
-}
+    if (category.subcategories) {
+      const subcategoryObj = category.subcategories.reduce(
+        (obj, subcategory) => {
+          return {
+            ...obj,
+            [subcategory.name_en]: {
+              checked: false,
+              filter: `subcategories.name_en = '${subcategory.name_en}'`,
+            },
+          };
+        },
+        {}
+      );
 
-export const categories = [
-  createCategory(Category.Art_Supplies, [
-    SubCategory.Pens_Pencils_and_Paints,
-    SubCategory.Brushes_and_Tools,
-    SubCategory.Canvas_and_Sketchbooks,
-  ]),
-  createCategory(Category.Hobbies, [
-    SubCategory.Diamond_Painting,
-    SubCategory.Coloring_Books,
-    SubCategory.Puzzles,
-  ]),
-  createCategory(Category.Art_Journaling, [
-    SubCategory.Washi_Tapes_and_Stickers,
-    SubCategory.Paper_Packs_and_Ephemra,
-    SubCategory.Wax_Boxes_and_Tools,
-  ]),
-  createCategory(Category.Handmade_Gifts),
-  createCategory(Category.Clearance),
-] as const;
+      return {
+        ...obj,
+        ...categoryObj,
+        ...subcategoryObj,
+      };
+    } else {
+      return {
+        ...obj,
+        ...categoryObj,
+      };
+    }
+  }, {}) as Record<string, { checked: boolean; filter: FilterableFields }>;
+};
 
 export const defaultAttributesToRetrieve: AttributesToRetrieve = [
   "id",

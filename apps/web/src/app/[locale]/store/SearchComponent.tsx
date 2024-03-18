@@ -5,9 +5,10 @@ import { handleAddClientParamsRoute } from "@/lib/utils/handleClientParams";
 import AddToCartButton from "@/components/cart/AddToCartButton";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import Pagination from "@/components/pagination/Pagination";
-import type {
-  FilterableFields,
-  ProductSearchResponse,
+import {
+  filterDefaultCheckStatus,
+  type FilterableFields,
+  type ProductSearchResponse,
 } from "@/lib/types/product";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
@@ -32,9 +33,11 @@ import {
   storeNumberOfPagesAtom,
   storeProductListAtom,
   storeSearchQueryAtom,
+  storeSelectedFiltersAtom,
   storeSortAtom,
   writeStoreSelectedFiltersAtom,
 } from "@/lib/atoms/storeAtoms";
+import type { CategoriesData } from "@/lib/types/categories";
 
 const FilterSort = dynamic(() => import("./FilterSort"));
 
@@ -46,6 +49,7 @@ type Props = {
   page: number;
   numberOfpages: number;
   translations: storeTranslations;
+  categories: CategoriesData[];
 };
 
 const SearchComponent = (props: Props) => {
@@ -57,6 +61,7 @@ const SearchComponent = (props: Props) => {
     [storeActiveFilterAtom, props.filter],
     [storeSortAtom, props.sort],
     [writeStoreSelectedFiltersAtom, props.filter],
+    [storeSelectedFiltersAtom, filterDefaultCheckStatus(props.categories)],
   ]);
 
   const setSearchQuery = useSetAtom(storeSearchQueryAtom.debouncedValueAtom);
@@ -88,7 +93,7 @@ const SearchComponent = (props: Props) => {
         />
       </TextField.Root>
 
-      <FilterSort />
+      <FilterSort categories={props.categories} />
 
       <Grid
         columns={{ initial: "1", md: "2", lg: "3" }}

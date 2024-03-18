@@ -15,6 +15,8 @@ import {
   storeKeys,
   type storeTranslations,
 } from "../../../../messages/messagesKeys";
+import { getCategoriesAndSubCategoriesData } from "@/lib/services/server/CategoryService";
+import { CategoriesSchema } from "@/lib/types/categories";
 
 type Props = {
   params: { locale: Locale };
@@ -61,7 +63,11 @@ const Page = async ({ params: { locale }, searchParams }: Props) => {
     return obj;
   }, {} as storeTranslations);
 
-  if (validatedData.success) {
+  const categories = await getCategoriesAndSubCategoriesData();
+
+  const validatedCategories = safeParse(CategoriesSchema, categories);
+
+  if (validatedData.success && validatedCategories.success) {
     return (
       <SearchComponent
         products={validatedData.output}
@@ -71,6 +77,7 @@ const Page = async ({ params: { locale }, searchParams }: Props) => {
         page={page}
         numberOfpages={validatedData.output.totalPages}
         translations={translations}
+        categories={validatedCategories.output.data}
       />
     );
   }

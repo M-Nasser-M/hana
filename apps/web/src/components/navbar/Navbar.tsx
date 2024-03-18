@@ -11,6 +11,7 @@ import MobileMenu from "./MobileMenu";
 import NextLink from "../NextLink";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import Image from "next/image";
 
 const CartButton = dynamic(() => import("./CartButton"));
 const LanguageSwitcher = dynamic(() => import("./LanguageSwitcher"));
@@ -29,6 +30,14 @@ const Navbar = ({ session, translations }: Props) => {
         <Box display={{ initial: "none", md: "block" }}>
           <NavigationMenu.List className="text-4">
             <Flex>
+              <NextLink href="/">
+                <Image
+                  src="/logo-accent-crop.png"
+                  alt="hana logo"
+                  width={64}
+                  height={32}
+                />
+              </NextLink>
               <NextLink href="/">
                 <NavigationMenu.Item className="active:bg-crimson-9 hover:bg-crimson-9 text-4 py-1 px-2 rounded-3">
                   {translations.home}

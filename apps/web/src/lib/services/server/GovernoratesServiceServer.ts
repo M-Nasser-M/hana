@@ -11,5 +11,4 @@ export async function getGovernorates() {
   return response;
 }
 
-cache;
 export const cachedGetGovrenorates = cache(getGovernorates);

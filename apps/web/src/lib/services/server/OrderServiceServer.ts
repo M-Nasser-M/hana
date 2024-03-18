@@ -14,7 +14,6 @@ export async function updateOrderPaymobTransactionIDByPaymobOrderID(
         payment_status,
       }
     );
-    console.log(response);
     return response;
   } catch (error) {
     console.error(
