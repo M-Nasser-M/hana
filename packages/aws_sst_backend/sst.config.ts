@@ -2,7 +2,7 @@ import { SSTConfig } from "sst";
 import { HanaVPC } from "./stacks/VPCStack";
 import { StrapiStack } from "./stacks/StrapiStack";
 import { meiliStack } from "./stacks/Meilistack";
-import { NextStack } from "./stacks/NextStack";
+import { NextStack } from "../aws_sst_frontned/stacks/NextStack";
 
 export default {
   config(_input) {
@@ -12,6 +12,6 @@ export default {
     };
   },
   stacks(app) {
-    app.stack(HanaVPC).stack(meiliStack).stack(StrapiStack).stack(NextStack);
+    app.stack(HanaVPC).stack(meiliStack).stack(StrapiStack);
   },
 } satisfies SSTConfig;

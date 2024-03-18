@@ -8,7 +8,7 @@ export function meiliStack({ stack }: StackContext) {
   const ecs = new Service(stack, "ecs-meili", {
     path: "../../apps/meilisearch",
     port: 7700,
-    cdk: { vpc, applicationLoadBalancer: false },
+    cdk: { vpc },
     environment: { MEILI_MASTER_KEY: MeiliENV.MEILI_MASTER_KEY! },
   });
 

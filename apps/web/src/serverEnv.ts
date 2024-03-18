@@ -1,11 +1,11 @@
-import { string, object, parse, url } from "valibot";
+import { string, object, parse } from "valibot";
 
 const serverEnvSchema = object({
   I18NEXUS_API_KEY: string(),
-  STRAPI_API_URL: string([url()]),
+  STRAPI_API_URL: string(),
   STRAPI_API_TOKEN: string(),
-  STRAPI_URL: string([url()]),
-  NEXTAUTH_URL: string([url()]),
+  STRAPI_URL: string(),
+  NEXTAUTH_URL: string(),
   GOOGLE_CLIENT_ID: string(),
   GOOGLE_CLIENT_SECRET: string(),
   NEXTAUTH_SECRET: string(),

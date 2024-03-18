@@ -7,6 +7,7 @@
     "clean": "turbo run clean",
     "dev": "turbo run dev & docker-compose -f ./docker-compose-Dev.yml --env-file ./apps/api/.env up",
     "dev:docker": "turbo run dev --filter='./apps/*' & docker-compose -f ./docker-compose-Dev.yml --env-file ./apps/api/.env up  ",
+    "deploy": "turbo run deploy --filter=@hana/sst",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "lint": "turbo run lint",
     "test": "turbo run test"

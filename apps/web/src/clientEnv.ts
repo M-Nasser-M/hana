@@ -1,16 +1,16 @@
-import { string, object, parse, url, coerce, number } from "valibot";
+import { string, object, parse, coerce, number } from "valibot";
 
 const clientEnvSchema = object({
-  NEXT_PUBLIC_MEILI_HOST: string([url()]),
+  NEXT_PUBLIC_MEILI_HOST: string(),
   NEXT_PUBLIC_MEILI_MASTER_KEY: string(),
-  NEXT_PUBLIC_STRAPI_API_URL: string([url()]),
+  NEXT_PUBLIC_STRAPI_API_URL: string(),
   NEXT_PUBLIC_STRAPI_API_TOKEN: string(),
   NEXT_PUBLIC_PAYMOB_API_KEY: string(),
-  NEXT_PUBLIC_PAYMOB_AUTH_TOKEN_URL: string([url()]),
-  NEXT_PUBLIC_PAYMOB_CREATE_ORDER_URL: string([url()]),
-  NEXT_PUBLIC_PAYMOB_PAYMENT_KEY_URL: string([url()]),
-  NEXT_PUBLIC_PAYMOB_MOBILE_PAY_URL: string([url()]),
-  NEXT_PUBLIC_PAYMOB_IFRAME_URL: string([url()]),
+  NEXT_PUBLIC_PAYMOB_AUTH_TOKEN_URL: string(),
+  NEXT_PUBLIC_PAYMOB_CREATE_ORDER_URL: string(),
+  NEXT_PUBLIC_PAYMOB_PAYMENT_KEY_URL: string(),
+  NEXT_PUBLIC_PAYMOB_MOBILE_PAY_URL: string(),
+  NEXT_PUBLIC_PAYMOB_IFRAME_URL: string(),
   NEXT_PUBLIC_IFRAME_ID: coerce(number(), Number),
   NEXT_PUBLIC_PAYMOB_CARD_PAYMENT_INTEGRATION_ID: coerce(number(), Number),
   NEXT_PUBLIC_PAYMOB_MOBILE_PAYMENT_INTEGRATION_ID: coerce(number(), Number),

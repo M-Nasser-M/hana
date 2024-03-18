@@ -1,5 +1,5 @@
 {
-  "name": "aws-sst",
+  "name": "@hana/sst_backend",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,16 +11,12 @@
     "console": "export AWS_PROFILE=hana && sst console",
     "typecheck": "tsc --noEmit"
   },
-  "devDependencies": {},
-  "workspaces": [
-    "packages/*"
-  ],
-  "dependencies": {
+  "devDependencies": {
     "valibot": "^0.30.0",
-    "@tsconfig/node18": "^18.2.2",
-    "aws-cdk-lib": "2.124.0",
+    "sst": "^2.41.2",
+    "aws-cdk-lib": "2.132.1",
     "constructs": "10.3.0",
-    "sst": "^2.40.6",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.2",
+    "@tsconfig/node18": "^18.2.2"
   }
 }

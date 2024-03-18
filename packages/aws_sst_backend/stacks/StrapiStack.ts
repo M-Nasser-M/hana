@@ -19,6 +19,7 @@ import {
 } from "aws-cdk-lib/aws-rds";
 import { Duration } from "aws-cdk-lib";
 import { StringParameter } from "aws-cdk-lib/aws-ssm";
+import { Secret } from "aws-cdk-lib/aws-secretsmanager";
 
 export function StrapiStack({ stack }: StackContext) {
   const vpc = use(HanaVPC);
@@ -27,7 +28,7 @@ export function StrapiStack({ stack }: StackContext) {
 
   const database = new DatabaseInstance(stack, "strapi-db", {
     engine: DatabaseInstanceEngine.postgres({
-      version: PostgresEngineVersion.VER_16_1,
+      version: PostgresEngineVersion.VER_14_10,
     }),
     vpc,
     databaseName: "strapiDb",
@@ -86,19 +87,18 @@ export function StrapiStack({ stack }: StackContext) {
     "Allow EC2 to RDS"
   );
 
-  const username = StringParameter.valueForStringParameter(stack, "username");
-  const password = StringParameter.valueForStringParameter(stack, "password");
-  const host = StringParameter.valueForStringParameter(stack, "host");
-  const port = StringParameter.valueForStringParameter(stack, "port");
-  const databaseName = StringParameter.valueForStringParameter(stack, "dbname");
-  const dbUrl = `postgres://${username}:${password}@${host}:${port}/${databaseName}`;
+  // get db info from the ssm generated while making the database
+  const secret = Secret.fromSecretCompleteArn(
+    stack,
+    "strapi-db-secret",
+    database.secret!.secretFullArn!
+  );
 
   const ecs = new Service(stack, "ecs-strapi", {
     port: 1337,
     path: "../../apps/api",
     cdk: {
       vpc,
-      applicationLoadBalancer: false,
       fargateService: {
         securityGroups: [instanceSecurityGroup],
       },
@@ -113,7 +113,7 @@ export function StrapiStack({ stack }: StackContext) {
       JWT_SECRET: StrapiENV.JWT_SECRET,
       PUBLIC_URL: "",
       DATABASE_CLIENT: StrapiENV.DATABASE_CLIENT,
-      DATABASE_URL: dbUrl,
+      DATABASE_URL: `postgres://${secret.secretValueFromJson("username")}:${secret.secretValueFromJson("password")}@${secret.secretValueFromJson("host")}:${secret.secretValueFromJson("port")}/${secret.secretValueFromJson("dbname")}`,
       DATABASE_SSL: StrapiENV.DATABASE_SSL,
       DATABASE_SSL_CA: StrapiENV.DATABASE_SSL_CA,
       MEILI_HOST: meili.url || "",
@@ -127,7 +127,8 @@ export function StrapiStack({ stack }: StackContext) {
 
   stack.addOutputs({
     STRAPI_URL: ecs.url,
-    DATABASE_URL: dbUrl,
+    DATABASE_SECRET_ARN: database.secret?.secretFullArn,
+    DATABASE_URL: `postgres://${secret.secretValueFromJson("username")}:${secret.secretValueFromJson("password")}@${secret.secretValueFromJson("host")}:${secret.secretValueFromJson("port")}/${secret.secretValueFromJson("dbname")}`,
   });
 
   return ecs;

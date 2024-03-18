@@ -27,11 +27,19 @@
       "outputs": [
         "coverage/**"
       ],
-      "dependsOn": []
+      "dependsOn": [
+        "^build"
+      ]
     },
     "lint": {
       "dependsOn": [
         "^build"
+      ]
+    },
+    "deploy": {
+      "dependsOn": [
+        "^build",
+        "^lint"
       ]
     },
     "dev": {
