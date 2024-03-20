@@ -3,7 +3,7 @@ import { meiliStack } from "../../aws_sst_backend/stacks/Meilistack";
 import { HanaVPC } from "../../aws_sst_backend/stacks/VPCStack";
 import { NextjsSite, StackContext, use } from "sst/constructs";
 import { RetentionDays } from "aws-cdk-lib/aws-logs";
-import { NextENV } from "../../aws_sst_backend/Env";
+import { NextENV } from "../Env";
 
 export function NextStack({ stack }: StackContext) {
   const vpc = use(HanaVPC);
@@ -25,13 +25,10 @@ export function NextStack({ stack }: StackContext) {
     },
     bind: [strapi, meili],
     environment: {
-      I18NEXUS_API_KEY: NextENV.I18NEXUS_API_KEY,
-      STRAPI_API_URL: strapi.url
-        ? `${strapi.url}/api`
-        : "http://localhost:1337/api",
+      STRAPI_API_URL: NextENV.STRAPI_API_URL,
       STRAPI_API_TOKEN: NextENV.STRAPI_API_TOKEN,
-      STRAPI_URL: strapi.url ? strapi.url : "http://localhost:1337",
-      NEXTAUTH_URL: "",
+      STRAPI_URL: NextENV.STRAPI_URL,
+      NEXTAUTH_URL: NextENV.NEXTAUTH_URL,
       GOOGLE_CLIENT_ID: NextENV.GOOGLE_CLIENT_ID,
       GOOGLE_CLIENT_SECRET: NextENV.GOOGLE_CLIENT_SECRET,
       NEXTAUTH_SECRET: NextENV.NEXTAUTH_SECRET,
@@ -39,14 +36,12 @@ export function NextStack({ stack }: StackContext) {
       FACEBOOK_CLIENT_SECRET: NextENV.FACEBOOK_CLIENT_SECRET,
       INSTAGRAM_CLIENT_ID: NextENV.INSTAGRAM_CLIENT_ID,
       INSTAGRAM_CLIENT_SECRET: NextENV.INSTAGRAM_CLIENT_SECRET,
-      MEILI_HOST: meili.url ? meili.url : "http://localhost:7700",
+      MEILI_HOST: NextENV.MEILI_HOST,
       MEILI_MASTER_KEY: NextENV.MEILI_MASTER_KEY,
       PAYMOB_HMAC_SECRET: NextENV.PAYMOB_HMAC_SECRET,
-      NEXT_PUBLIC_MEILI_HOST: meili.url ? meili.url : "http://localhost:7700",
+      NEXT_PUBLIC_MEILI_HOST: NextENV.NEXT_PUBLIC_MEILI_HOST,
       NEXT_PUBLIC_MEILI_MASTER_KEY: NextENV.NEXT_PUBLIC_MEILI_MASTER_KEY,
-      NEXT_PUBLIC_STRAPI_API_URL: strapi.url
-        ? `${strapi.url}/api`
-        : "http:localhost:1337/api",
+      NEXT_PUBLIC_STRAPI_API_URL: NextENV.NEXT_PUBLIC_STRAPI_API_URL,
       NEXT_PUBLIC_STRAPI_API_TOKEN: NextENV.NEXT_PUBLIC_STRAPI_API_TOKEN,
       NEXT_PUBLIC_PAYMOB_API_KEY: NextENV.NEXT_PUBLIC_PAYMOB_API_KEY,
       NEXT_PUBLIC_PAYMOB_AUTH_TOKEN_URL:

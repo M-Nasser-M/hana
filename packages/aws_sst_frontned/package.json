@@ -4,14 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "sst dev",
-    "build": "sst build",
-    "deploy": "sst deploy",
-    "remove": "sst remove",
-    "console": "sst console",
+    "dev": "export AWS_PROFILE=hana && sst dev",
+    "build": "export AWS_PROFILE=hana && sst build",
+    "deploy": "export AWS_PROFILE=hana && sst deploy",
+    "remove": "export AWS_PROFILE=hana && sst remove",
+    "console": "export AWS_PROFILE=hana && sst console",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "valibot": "^0.30.0",
     "sst": "^2.41.2",
     "aws-cdk-lib": "2.132.1",
     "constructs": "10.3.0",

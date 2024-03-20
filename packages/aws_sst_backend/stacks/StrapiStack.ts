@@ -18,13 +18,45 @@ import {
   StorageType,
 } from "aws-cdk-lib/aws-rds";
 import { Duration } from "aws-cdk-lib";
-import { StringParameter } from "aws-cdk-lib/aws-ssm";
 import { Secret } from "aws-cdk-lib/aws-secretsmanager";
+import {
+  ApplicationProtocol,
+  ApplicationProtocolVersion,
+} from "aws-cdk-lib/aws-elasticloadbalancingv2";
+import { instance } from "valibot";
 
 export function StrapiStack({ stack }: StackContext) {
   const vpc = use(HanaVPC);
 
   const meili = use(meiliStack);
+
+  const dbSecurityGroup = new SecurityGroup(stack, "DBSecurityGroup", {
+    vpc,
+    description: "Allow access to RDS instance",
+    allowAllOutbound: true,
+  });
+
+  const instanceSecurityGroup = new SecurityGroup(
+    stack,
+    "instanceSecurityGroup",
+    {
+      vpc,
+      description: "Allow access to RDS instance",
+      allowAllOutbound: true,
+    }
+  );
+
+  dbSecurityGroup.addIngressRule(
+    instanceSecurityGroup,
+    Port.tcp(5432),
+    "Allow inbound traffic on port 5432"
+  );
+
+  instanceSecurityGroup.addIngressRule(
+    dbSecurityGroup,
+    Port.tcp(5432),
+    "Allow inbound traffic on port 5432"
+  );
 
   const database = new DatabaseInstance(stack, "strapi-db", {
     engine: DatabaseInstanceEngine.postgres({
@@ -38,61 +70,21 @@ export function StrapiStack({ stack }: StackContext) {
     backupRetention: Duration.days(7),
     storageType: StorageType.GP2,
     caCertificate: CaCertificate.RDS_CA_RDS4096_G1,
+    securityGroups: [dbSecurityGroup],
   });
 
-  const dbSecurityGroup = new SecurityGroup(stack, "DBSecurityGroup", {
-    vpc,
-    description: "Allow access to RDS instance",
-    allowAllOutbound: true, // Change to false if you want to restrict outbound traffic
-  });
-
-  // Allow inbound traffic on the default PostgreSQL port (5432)
-  dbSecurityGroup.addIngressRule(
-    Peer.ipv4("0.0.0.0/0"),
-    Port.tcp(5432),
-    "Allow inbound traffic on port 5432"
-  );
-
-  // Associate the security group with the RDS instance
-  database.connections.addSecurityGroup(dbSecurityGroup);
-
-  const instanceSecurityGroup = new SecurityGroup(
-    stack,
-    "InstanceSecurityGroup",
-    {
-      vpc,
-      description: "Allow access to EC2 instance",
-      allowAllOutbound: true, // Change to false if you want to restrict outbound traffic
-    }
-  );
-
-  // Allow inbound traffic on the default SSH port (22)
-  instanceSecurityGroup.addIngressRule(
-    Peer.ipv4("0.0.0.0/0"),
-    Port.tcp(22),
-    "Allow inbound traffic on port 22"
-  );
-
-  // Allow inbound access from the RDS security group to the EC2 security group
-  instanceSecurityGroup.addIngressRule(
-    dbSecurityGroup,
-    Port.tcp(5432),
-    "Allow RDS to EC2"
-  );
-
-  // Allow inbound access from the EC2 security group to the RDS security group
-  dbSecurityGroup.addIngressRule(
-    instanceSecurityGroup,
-    Port.tcp(5432),
-    "Allow EC2 to RDS"
-  );
-
-  // get db info from the ssm generated while making the database
   const secret = Secret.fromSecretCompleteArn(
     stack,
     "strapi-db-secret",
     database.secret!.secretFullArn!
   );
+
+  const username = secret.secretValueFromJson("username");
+  const password = secret.secretValueFromJson("password");
+  const host = secret.secretValueFromJson("host");
+  const port = secret.secretValueFromJson("port");
+  const dbname = secret.secretValueFromJson("dbname");
+  const dbUrl = `postgres://${username}:${password}@${host}:${port}/${dbname}`;
 
   const ecs = new Service(stack, "ecs-strapi", {
     port: 1337,
@@ -101,6 +93,12 @@ export function StrapiStack({ stack }: StackContext) {
       vpc,
       fargateService: {
         securityGroups: [instanceSecurityGroup],
+      },
+      applicationLoadBalancerTargetGroup: {
+        port: 1337,
+        healthCheck: { path: "/_health", healthyHttpCodes: "200,204" },
+        protocol: ApplicationProtocol.HTTP,
+        protocolVersion: ApplicationProtocolVersion.HTTP1,
       },
     },
     environment: {
@@ -111,9 +109,9 @@ export function StrapiStack({ stack }: StackContext) {
       ADMIN_JWT_SECRET: StrapiENV.ADMIN_JWT_SECRET,
       TRANSFER_TOKEN_SALT: StrapiENV.TRANSFER_TOKEN_SALT,
       JWT_SECRET: StrapiENV.JWT_SECRET,
-      PUBLIC_URL: "",
+      PUBLIC_URL: StrapiENV.PUBLIC_URL,
       DATABASE_CLIENT: StrapiENV.DATABASE_CLIENT,
-      DATABASE_URL: `postgres://${secret.secretValueFromJson("username")}:${secret.secretValueFromJson("password")}@${secret.secretValueFromJson("host")}:${secret.secretValueFromJson("port")}/${secret.secretValueFromJson("dbname")}`,
+      DATABASE_URL: dbUrl,
       DATABASE_SSL: StrapiENV.DATABASE_SSL,
       DATABASE_SSL_CA: StrapiENV.DATABASE_SSL_CA,
       MEILI_HOST: meili.url || "",
@@ -127,8 +125,6 @@ export function StrapiStack({ stack }: StackContext) {
 
   stack.addOutputs({
     STRAPI_URL: ecs.url,
-    DATABASE_SECRET_ARN: database.secret?.secretFullArn,
-    DATABASE_URL: `postgres://${secret.secretValueFromJson("username")}:${secret.secretValueFromJson("password")}@${secret.secretValueFromJson("host")}:${secret.secretValueFromJson("port")}/${secret.secretValueFromJson("dbname")}`,
   });
 
   return ecs;
