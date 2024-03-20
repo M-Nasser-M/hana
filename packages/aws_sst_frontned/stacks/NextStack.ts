@@ -14,6 +14,7 @@ export function NextStack({ stack }: StackContext) {
 
   const site = new NextjsSite(stack, "site", {
     path: "../../apps/web",
+    runtime: "nodejs20.x",
     cdk: {
       server: {
         vpc,

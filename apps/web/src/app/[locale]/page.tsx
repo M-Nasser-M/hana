@@ -1,10 +1,10 @@
 import { unstable_setRequestLocale } from "next-intl/server";
-import { MainPageDataSchema } from "@/lib/types/mainPages";
-import { getHomeData } from "@/lib/services/server/HomeServiceServer";
+// import { MainPageDataSchema } from "@/lib/types/mainPages";
+// import { getHomeData } from "@/lib/services/server/HomeServiceServer";
 import type { Locale } from "@/lib/types/sharedTypes";
 import { AspectRatio, Card, Flex, Heading, Inset } from "@radix-ui/themes";
-import { parse, safeParse } from "valibot";
-import { Metadata } from "next";
+import { safeParse } from "valibot";
+// import { Metadata } from "next";
 import NextImage from "next/image";
 import { getCategoriesData } from "@/lib/services/server/CategoryService";
 import { getFeaturedProducts } from "@/lib/services/server/ProductServiceServer";
@@ -21,18 +21,23 @@ type Props = {
   params: { locale: Locale };
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const homeData = await getHomeData(params.locale);
+// export async function generateMetadata({ params }: Props): Promise<Metadata> {
+//   try {
+//     const homeData = await getHomeData(params.locale);
 
-  const { seo } = parse(MainPageDataSchema, homeData?.data);
+//     const { seo } = parse(MainPageDataSchema, homeData?.data);
 
-  return {
-    title: seo.metaTitle,
-    description: seo.metaDescription,
-    keywords: seo.keywords,
-    robots: seo.metaRobots,
-  };
-}
+//     return {
+//       title: seo.metaTitle,
+//       description: seo.metaDescription,
+//       keywords: seo.keywords,
+//       robots: seo.metaRobots,
+//     };
+//   } catch (error) {
+//     console.error(error);
+//     return {};
+//   }
+// }
 
 export default async function Page({ params: { locale } }: Props) {
   unstable_setRequestLocale(locale);
