@@ -4,10 +4,11 @@
   "info": {
     "singularName": "store",
     "pluralName": "stores",
-    "displayName": "store"
+    "displayName": "store",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {
     "i18n": {

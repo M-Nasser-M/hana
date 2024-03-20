@@ -7,7 +7,7 @@
     "displayName": "blog-main-page"
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {
     "i18n": {
