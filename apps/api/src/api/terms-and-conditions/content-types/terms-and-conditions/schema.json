@@ -15,7 +15,7 @@
     }
   },
   "attributes": {
-    "articl": {
+    "article": {
       "pluginOptions": {
         "i18n": {
           "localized": true

@@ -18,7 +18,7 @@ const Footer = () => {
         <NextLink href="/terms-and-conditions">
           <Text as="span">TERMS AND CONDITIONS</Text>
         </NextLink>
-        <NextLink href="/terms-and-conditions">
+        <NextLink href="/refund-return">
           <Text as="span">REFUND AND RETURN</Text>
         </NextLink>
       </Flex>

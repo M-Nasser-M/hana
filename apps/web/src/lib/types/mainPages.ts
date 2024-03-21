@@ -1,4 +1,13 @@
-import { Input, coerce, date, nullable, number, object, string } from "valibot";
+import {
+  Input,
+  coerce,
+  date,
+  nullable,
+  number,
+  object,
+  optional,
+  string,
+} from "valibot";
 import { MetaSchema, SeoSchema } from "./sharedTypes";
 
 export const MainPageDataSchema = object({
@@ -51,6 +60,7 @@ export const ArticleAndSeoDataSchema = object({
   article: nullable(string()),
   createdAt: coerce(date(), (input) => new Date(input as string)),
   updatedAt: coerce(date(), (input) => new Date(input as string)),
+  publishedAt: optional(coerce(date(), (input) => new Date(input as string))),
   locale: string(),
   seo: SeoSchema,
 });
