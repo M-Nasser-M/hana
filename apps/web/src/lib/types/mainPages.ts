@@ -51,7 +51,6 @@ export const ArticleAndSeoDataSchema = object({
   article: nullable(string()),
   createdAt: coerce(date(), (input) => new Date(input as string)),
   updatedAt: coerce(date(), (input) => new Date(input as string)),
-  publishedAt: coerce(date(), (input) => new Date(input as string)),
   locale: string(),
   seo: SeoSchema,
 });
