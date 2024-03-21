@@ -4,8 +4,7 @@
   "info": {
     "singularName": "home",
     "pluralName": "homes",
-    "displayName": "home",
-    "description": ""
+    "displayName": "home"
   },
   "options": {
     "draftAndPublish": false

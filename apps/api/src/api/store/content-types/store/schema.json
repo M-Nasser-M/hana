@@ -4,8 +4,7 @@
   "info": {
     "singularName": "store",
     "pluralName": "stores",
-    "displayName": "store",
-    "description": ""
+    "displayName": "store"
   },
   "options": {
     "draftAndPublish": false

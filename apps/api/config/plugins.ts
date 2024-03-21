@@ -27,7 +27,7 @@ module.exports = ({ env }) => ({
     config: {
       host: env("MEILI_HOST"),
       apiKey: env("MEILI_MASTER_KEY"),
-      product: {
+      products: {
         settings: {
           filterableAttributes: [
             "locale",
