@@ -7,3 +7,5 @@ README.md
 .git
 dist
 .strapi-updater
+.env
+.env*
