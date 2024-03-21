@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "sst dev next dev",
-    "dev:local": "next dev",
+    "dev:locale": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

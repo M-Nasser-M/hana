@@ -10,10 +10,7 @@ import { getCategoriesData } from "@/lib/services/server/CategoryService";
 import { getFeaturedProducts } from "@/lib/services/server/ProductServiceServer";
 import { CategoriesSchema } from "@/lib/types/categories";
 import CarouselHorizontal from "../../components/carousel/CarouselHorizontal";
-import {
-  type ProductSearchResponseElement,
-  ProductSearchResponseSchema,
-} from "@/lib/types/product";
+import { ProductSearchResponseSchema } from "@/lib/types/product";
 import NextLink from "@/components/NextLink";
 import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
 
@@ -47,17 +44,12 @@ export default async function Page({ params: { locale } }: Props) {
     getFeaturedProducts(locale),
   ]);
 
+  console.log(featuredResponse);
+
   const [validatedCat, validatedFeatured] = [
     safeParse(CategoriesSchema, catResponse),
     safeParse(ProductSearchResponseSchema, featuredResponse),
   ];
-
-  if (!validatedCat.success || !validatedFeatured.success) return null;
-
-  const Products: ProductSearchResponseElement[] =
-    validatedFeatured.output.hits.filter(
-      (product) => +product.availableStock > 0
-    );
 
   return (
     <Flex direction="column" gap="4">
@@ -86,43 +78,51 @@ export default async function Page({ params: { locale } }: Props) {
       </Flex>
 
       <Flex px="4" gap="4" wrap="wrap" justify="center" align="center">
-        {validatedCat.output.data.map((category) => (
-          <Card asChild key={category.id}>
-            <Flex
-              className="md:w-1/4 sm:w-1/3 w-full text-center"
-              gap="4"
-              direction="column"
-              align="center"
-              justify="center"
-            >
-              {category.cover && (
+        {validatedCat.success &&
+          validatedCat.output.data.map((category) => (
+            <Card asChild key={category.id}>
+              <Flex
+                className="md:w-1/4 sm:w-1/3 w-full text-center"
+                gap="4"
+                direction="column"
+                align="center"
+                justify="center"
+              >
+                {category.cover && (
+                  <NextLink
+                    href={`/store?filter=["locale = ${locale}","categories.name_en = '${category.name_en}'"]`}
+                  >
+                    <Inset mb="4">
+                      <AspectRatio ratio={4 / 3}>
+                        <NextImage
+                          fill
+                          src={category.cover.url}
+                          alt={
+                            category.cover.alternativeText || "category image"
+                          }
+                        />
+                      </AspectRatio>
+                    </Inset>
+                  </NextLink>
+                )}
                 <NextLink
                   href={`/store?filter=["locale = ${locale}","categories.name_en = '${category.name_en}'"]`}
                 >
-                  <Inset mb="4">
-                    <AspectRatio ratio={4 / 3}>
-                      <NextImage
-                        fill
-                        src={category.cover.url}
-                        alt={category.cover.alternativeText || "category image"}
-                      />
-                    </AspectRatio>
-                  </Inset>
+                  <Heading as="h3">{category[`name_${locale}`]}</Heading>
                 </NextLink>
-              )}
-              <NextLink
-                href={`/store?filter=["locale = ${locale}","categories.name_en = '${category.name_en}'"]`}
-              >
-                <Heading as="h3">{category[`name_${locale}`]}</Heading>
-              </NextLink>
-            </Flex>
-          </Card>
-        ))}
+              </Flex>
+            </Card>
+          ))}
       </Flex>
-      <Heading className="ml-4 rtl:mr-4" as="h2">
-        Featured Products
-      </Heading>
-      <CarouselHorizontal products={Products} />
+      {validatedFeatured.success && (
+        <>
+          <Heading className="ml-4 rtl:mr-4" as="h2">
+            Featured Products
+          </Heading>
+
+          <CarouselHorizontal products={validatedFeatured.output.hits} />
+        </>
+      )}
     </Flex>
   );
 }
