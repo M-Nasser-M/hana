@@ -89,7 +89,7 @@ const Page = async ({ params: { locale } }: Props) => {
         </Flex>
         <Text size="4">{validateUserData.output.phone}</Text>
       </Flex>
-      <Flex grow="1">
+      <Flex flexGrow="1">
         <Separator size="4" color="crimson" orientation="vertical" />
       </Flex>
       <Box width="100%">
