@@ -6,9 +6,9 @@ import type { profileTranslations } from "../../../../messages/messagesKeys";
 import { addAddress } from "@/lib/services/client/ProfileServiceClinet";
 import type { GovernorateData } from "@/lib/types/city-governorate";
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { Loader2, Plus, XCircle } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { sessionAtom } from "@/lib/atoms/atoms";
+import { Plus, XCircle } from "lucide-react";
 import * as Form from "@radix-ui/react-form";
 import { useRouter } from "next/navigation";
 import { useAtomValue } from "jotai";
@@ -22,7 +22,7 @@ import {
   Select,
   Text,
   TextArea,
-  TextFieldInput,
+  TextField,
 } from "@radix-ui/themes";
 
 type Props = {
@@ -40,7 +40,7 @@ const AddAddressForm = ({ translations, governorates, big }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isLoading },
     control,
   } = useForm<AddressForm>({
     resolver: valibotResolver(AddressFormSchema),
@@ -93,25 +93,25 @@ const AddAddressForm = ({ translations, governorates, big }: Props) => {
             <Text as="label" size="4" color="crimson">
               {translations.addressname}
             </Text>
-            <TextFieldInput {...register("name")} />
+            <TextField.Root {...register("name")} />
             {errors.name && errors.name.message}
 
             <Text as="label" size="4" color="crimson">
               {translations.firstname}
             </Text>
-            <TextFieldInput {...register("first_name")} />
+            <TextField.Root {...register("first_name")} />
             {errors.first_name && errors.first_name.message}
 
             <Text as="label" size="4" color="crimson">
               {translations.lastname}
             </Text>
-            <TextFieldInput type="text" {...register("last_name")} />
+            <TextField.Root type="text" {...register("last_name")} />
             {errors.last_name && errors.last_name.message}
 
             <Text as="label" size="4" color="crimson">
               {translations.phone}
             </Text>
-            <TextFieldInput type="text" {...register("phone")} />
+            <TextField.Root type="text" {...register("phone")} />
             {errors.phone && errors.phone.message}
 
             <Text as="label" size="4" color="crimson">
@@ -146,25 +146,25 @@ const AddAddressForm = ({ translations, governorates, big }: Props) => {
             <Text as="label" size="4" color="crimson">
               {translations.district}
             </Text>
-            <TextFieldInput type="text" {...register("district")} />
+            <TextField.Root type="text" {...register("district")} />
             {errors.district && errors.district.message}
 
             <Text as="label" size="4" color="crimson">
               {translations.street}
             </Text>
-            <TextFieldInput {...register("street")} type="text" />
+            <TextField.Root {...register("street")} type="text" />
             {errors.street && errors.street.message}
 
             <Text as="label" size="4" color="crimson">
               {translations.building}
             </Text>
-            <TextFieldInput {...register("building")} type="text" />
+            <TextField.Root {...register("building")} type="text" />
             {errors.building && errors.building.message}
 
             <Text as="label" size="4" color="crimson">
               {translations.floor}
             </Text>
-            <TextFieldInput
+            <TextField.Root
               {...register("floor", { valueAsNumber: true })}
               type="text"
             />
@@ -173,7 +173,7 @@ const AddAddressForm = ({ translations, governorates, big }: Props) => {
             <Text as="label" size="4" color="crimson">
               {translations.apartmentno}
             </Text>
-            <TextFieldInput {...register("apartment_no")} type="text" />
+            <TextField.Root {...register("apartment_no")} type="text" />
             {errors.apartment_no && errors.apartment_no.message}
 
             <Text as="label" size="4" color="crimson">
@@ -182,9 +182,8 @@ const AddAddressForm = ({ translations, governorates, big }: Props) => {
             <TextArea {...register("details")} />
             {errors.details && errors.details.message}
 
-            <Button mt="4" type="submit" variant="outline">
-              {!isSubmitting && "Save"}
-              {isSubmitting && <Loader2 className="animate-spin" />}
+            <Button loading={isLoading} mt="4" type="submit" variant="outline">
+              Save
             </Button>
           </Flex>
         </Form.Root>

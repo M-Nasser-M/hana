@@ -19,7 +19,7 @@ import {
   Flex,
   IconButton,
   Text,
-  TextFieldInput,
+  TextField,
 } from "@radix-ui/themes";
 
 type Props = { translations: profileTranslations };
@@ -34,7 +34,7 @@ const EditUserEmailForm = ({ translations }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isLoading },
   } = useForm<EmailForm>({
     resolver: valibotResolver(EmailFormSchema),
   });
@@ -75,9 +75,9 @@ const EditUserEmailForm = ({ translations }: Props) => {
             <Text as="label" size="4" color="crimson">
               {translations.email}
             </Text>
-            <TextFieldInput {...register("email")} type="email" />
+            <TextField.Root {...register("email")} type="email" />
             {errors.email && errors.email.message}
-            <Button type="submit" variant="outline">
+            <Button loading={isLoading} type="submit" variant="outline">
               Submit
             </Button>
           </Flex>

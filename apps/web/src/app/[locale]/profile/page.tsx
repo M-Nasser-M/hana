@@ -16,6 +16,7 @@ import {
   type profileTranslations,
 } from "../../../../messages/messagesKeys";
 import { UserProfileSchema } from "@/lib/types/userProfile";
+import { unstable_noStore as noStore } from "next/cache";
 
 const EditUserEmailForm = dynamic(() => import("./EditUserEmailForm"));
 const EditUserPhoneForm = dynamic(() => import("./EditUserPhoneForm"));
@@ -25,6 +26,7 @@ type Props = {
 };
 
 const Page = async ({ params: { locale } }: Props) => {
+  noStore();
   unstable_setRequestLocale(locale);
 
   const sesssion = await getServerSession(options);

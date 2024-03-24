@@ -19,7 +19,7 @@ import {
   Flex,
   IconButton,
   Text,
-  TextFieldInput,
+  TextField,
 } from "@radix-ui/themes";
 
 type Props = { translations: profileTranslations };
@@ -34,7 +34,7 @@ const EditUserPhoneForm = ({ translations }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isLoading },
   } = useForm<PhoneForm>({
     resolver: valibotResolver(PhoneFormSchema),
   });
@@ -81,9 +81,9 @@ const EditUserPhoneForm = ({ translations }: Props) => {
             <Text as="label" size="4" color="crimson">
               {translations.phone}
             </Text>
-            <TextFieldInput {...register("phone")} />
+            <TextField.Root {...register("phone")} />
             {errors.phone && errors.phone.message}
-            <Button type="submit" variant="outline">
+            <Button loading={isLoading} type="submit" variant="outline">
               Submit
             </Button>
           </Flex>

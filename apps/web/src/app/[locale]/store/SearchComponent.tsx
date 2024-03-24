@@ -74,23 +74,23 @@ const SearchComponent = (props: Props) => {
 
   return (
     <>
-      <TextField.Root mb="9">
+      <TextField.Root
+        onChange={(e) => {
+          setSearchQuery(e.target.value);
+          handleAddClientParamsRoute(
+            searchParams,
+            router,
+            pathname,
+            "searchquery",
+            e.target.value
+          );
+        }}
+        placeholder="Search our store"
+        mb="9"
+      >
         <TextField.Slot>
           <Search height="16" />
         </TextField.Slot>
-        <TextField.Input
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-            handleAddClientParamsRoute(
-              searchParams,
-              router,
-              pathname,
-              "searchquery",
-              e.target.value
-            );
-          }}
-          placeholder="Search our store"
-        />
       </TextField.Root>
 
       <FilterSort categories={props.categories} />
@@ -133,7 +133,14 @@ const SearchComponent = (props: Props) => {
             </Badge>
             <Flex justify="between">
               <Heading as="h3">
-                {product.offer_price ? product.offer_price : product.price}{" "}
+                {product.offer_price ? (
+                  <>
+                    <Text className="line-through">{product.price}</Text>
+                    <Text>{product.offer_price}</Text>
+                  </>
+                ) : (
+                  product.price
+                )}
                 {props.translations.currency}
               </Heading>
               <AddToCartButton

@@ -23,7 +23,7 @@ import {
   Select,
   Text,
   TextArea,
-  TextFieldInput,
+  TextField,
 } from "@radix-ui/themes";
 
 type Props = {
@@ -41,7 +41,7 @@ const AddressForm = ({ translations, address, governorates }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isLoading },
     control,
   } = useForm<AddressForm>({
     resolver: valibotResolver(AddressFormSchema),
@@ -88,7 +88,7 @@ const AddressForm = ({ translations, address, governorates }: Props) => {
             <Text as="label" size="4" color="crimson">
               {translations.addressname}
             </Text>
-            <TextFieldInput
+            <TextField.Root
               defaultValue={address?.name ? address.name : ""}
               {...register("name")}
             />
@@ -97,7 +97,7 @@ const AddressForm = ({ translations, address, governorates }: Props) => {
             <Text as="label" size="4" color="crimson">
               {translations.firstname}
             </Text>
-            <TextFieldInput
+            <TextField.Root
               defaultValue={address?.first_name ? address.first_name : ""}
               {...register("first_name")}
             />
@@ -106,7 +106,7 @@ const AddressForm = ({ translations, address, governorates }: Props) => {
             <Text as="label" size="4" color="crimson">
               {translations.lastname}
             </Text>
-            <TextFieldInput
+            <TextField.Root
               defaultValue={address?.last_name ? address.last_name : ""}
               type="text"
               {...register("last_name")}
@@ -116,7 +116,7 @@ const AddressForm = ({ translations, address, governorates }: Props) => {
             <Text as="label" size="4" color="crimson">
               {translations.phone}
             </Text>
-            <TextFieldInput
+            <TextField.Root
               defaultValue={address?.phone ? address.phone : ""}
               type="text"
               {...register("phone")}
@@ -156,7 +156,7 @@ const AddressForm = ({ translations, address, governorates }: Props) => {
             <Text as="label" size="4" color="crimson">
               {translations.district}
             </Text>
-            <TextFieldInput
+            <TextField.Root
               defaultValue={address.district}
               type="text"
               {...register("district")}
@@ -166,7 +166,7 @@ const AddressForm = ({ translations, address, governorates }: Props) => {
             <Text as="label" size="4" color="crimson">
               {translations.street}
             </Text>
-            <TextFieldInput
+            <TextField.Root
               defaultValue={address?.street ? address.street : ""}
               {...register("street")}
               type="text"
@@ -176,7 +176,7 @@ const AddressForm = ({ translations, address, governorates }: Props) => {
             <Text as="label" size="4" color="crimson">
               {translations.building}
             </Text>
-            <TextFieldInput
+            <TextField.Root
               defaultValue={address?.building ? address.building : ""}
               {...register("building")}
               type="text"
@@ -186,7 +186,7 @@ const AddressForm = ({ translations, address, governorates }: Props) => {
             <Text as="label" size="4" color="crimson">
               {translations.floor}
             </Text>
-            <TextFieldInput
+            <TextField.Root
               defaultValue={address?.floor ? address.floor : ""}
               {...register("floor", { valueAsNumber: true })}
               type="text"
@@ -196,7 +196,7 @@ const AddressForm = ({ translations, address, governorates }: Props) => {
             <Text as="label" size="4" color="crimson">
               {translations.apartmentno}
             </Text>
-            <TextFieldInput
+            <TextField.Root
               defaultValue={address?.apartment_no ? address.apartment_no : ""}
               {...register("apartment_no")}
               type="text"
@@ -212,8 +212,8 @@ const AddressForm = ({ translations, address, governorates }: Props) => {
             />
             {errors.details && errors.details.message}
 
-            <Button mt="4" type="submit" variant="outline">
-              Save
+            <Button loading={isLoading} mt="4" type="submit" variant="outline">
+              Submit
             </Button>
           </Flex>
         </Form.Root>

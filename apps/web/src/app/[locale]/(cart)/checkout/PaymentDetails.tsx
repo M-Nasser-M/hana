@@ -1,5 +1,5 @@
 "use client";
-import { Flex, RadioGroup, Text, TextFieldInput } from "@radix-ui/themes";
+import { Flex, RadioGroup, Text, TextField } from "@radix-ui/themes";
 import type {
   profileTranslations,
   checkoutTranslations,
@@ -41,7 +41,7 @@ const PaymentDetails = ({ translations }: Props) => {
             {translations.mobilewallet}
           </Text>
           {paymentType === PaymentTypeEnum.MOBILEWALLET && (
-            <TextFieldInput
+            <TextField.Root
               minLength={11}
               maxLength={11}
               pattern="/^[0-9]+$/"

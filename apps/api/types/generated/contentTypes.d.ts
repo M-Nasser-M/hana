@@ -584,47 +584,6 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
-export interface PluginPublisherAction extends Schema.CollectionType {
-  collectionName: 'actions';
-  info: {
-    singularName: 'action';
-    pluralName: 'actions';
-    displayName: 'actions';
-  };
-  options: {
-    draftAndPublish: false;
-    comment: '';
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    executeAt: Attribute.DateTime;
-    mode: Attribute.String;
-    entityId: Attribute.Integer;
-    entitySlug: Attribute.String;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::publisher.action',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'plugin::publisher.action',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -852,7 +811,7 @@ export interface ApiAboutUsAboutUs extends Schema.SingleType {
     displayName: 'about-us';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   pluginOptions: {
     i18n: {
@@ -881,7 +840,6 @@ export interface ApiAboutUsAboutUs extends Schema.SingleType {
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::about-us.about-us',
       'oneToOne',
@@ -1059,7 +1017,7 @@ export interface ApiBlogMainPageBlogMainPage extends Schema.SingleType {
     displayName: 'blog-main-page';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   pluginOptions: {
     i18n: {
@@ -1075,7 +1033,6 @@ export interface ApiBlogMainPageBlogMainPage extends Schema.SingleType {
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::blog-main-page.blog-main-page',
       'oneToOne',
@@ -1293,7 +1250,7 @@ export interface ApiHomeHome extends Schema.SingleType {
     displayName: 'home';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   pluginOptions: {
     i18n: {
@@ -1321,7 +1278,6 @@ export interface ApiHomeHome extends Schema.SingleType {
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::home.home', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::home.home', 'oneToOne', 'admin::user'> &
@@ -1436,7 +1392,7 @@ export interface ApiPrivacyPolicyPrivacyPolicy extends Schema.SingleType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   pluginOptions: {
     i18n: {
@@ -1464,7 +1420,6 @@ export interface ApiPrivacyPolicyPrivacyPolicy extends Schema.SingleType {
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::privacy-policy.privacy-policy',
       'oneToOne',
@@ -1673,7 +1628,7 @@ export interface ApiRefundReturnRefundReturn extends Schema.SingleType {
     displayName: 'refund-return';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   pluginOptions: {
     i18n: {
@@ -1701,7 +1656,6 @@ export interface ApiRefundReturnRefundReturn extends Schema.SingleType {
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::refund-return.refund-return',
       'oneToOne',
@@ -1731,7 +1685,7 @@ export interface ApiStoreStore extends Schema.SingleType {
     displayName: 'store';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   pluginOptions: {
     i18n: {
@@ -1747,7 +1701,6 @@ export interface ApiStoreStore extends Schema.SingleType {
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::store.store',
       'oneToOne',
@@ -1819,7 +1772,7 @@ export interface ApiTermsAndConditionsTermsAndConditions
     displayName: 'terms-and-conditions';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   pluginOptions: {
     i18n: {
@@ -1827,7 +1780,7 @@ export interface ApiTermsAndConditionsTermsAndConditions
     };
   };
   attributes: {
-    articl: Attribute.RichText &
+    article: Attribute.RichText &
       Attribute.CustomField<
         'plugin::ckeditor5.CKEditor',
         {
@@ -1847,7 +1800,6 @@ export interface ApiTermsAndConditionsTermsAndConditions
       }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::terms-and-conditions.terms-and-conditions',
       'oneToOne',
@@ -1883,7 +1835,6 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
-      'plugin::publisher.action': PluginPublisherAction;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
