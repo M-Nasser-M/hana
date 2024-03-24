@@ -31,18 +31,19 @@ const Page = async ({ params: { slug, locale } }: Props) => {
         <Heading className="col" size="7" color="crimson" highContrast>
           {validatedData.output.data.name}
         </Heading>
-        <Heading size="7">{`${
-          validatedData.output.data.offer_price ? (
+        <Heading size="7">
+          {validatedData.output.data.offer_price ? (
             <>
               <Text className="line-through">
                 {validatedData.output.data.price}
-              </Text>
+              </Text>{" "}
               <Text>{validatedData.output.data.offer_price}</Text>
             </>
           ) : (
             validatedData.output.data.price
-          )
-        } ${t("currency")}`}</Heading>
+          )}{" "}
+          {t("currency")}
+        </Heading>
         <Heading size="5">{validatedData.output.data.description}</Heading>
         <Flex direction="row" gap="2" justify="between">
           <Badge

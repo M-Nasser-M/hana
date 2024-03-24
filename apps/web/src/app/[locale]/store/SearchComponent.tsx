@@ -135,7 +135,7 @@ const SearchComponent = (props: Props) => {
               <Heading as="h3">
                 {product.offer_price ? (
                   <>
-                    <Text className="line-through">{product.price}</Text>
+                    <Text className="line-through">{product.price}</Text>{" "}
                     <Text>{product.offer_price}</Text>
                   </>
                 ) : (
