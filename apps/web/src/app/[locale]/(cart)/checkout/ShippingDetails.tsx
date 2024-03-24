@@ -64,7 +64,6 @@ const ShippingDetails = ({ translations, addresses, governorates }: Props) => {
                   {`${address.street}  ${address.building} ${(address?.floor && translations.floor) || ""} ${address?.floor || ""} ${address.district} ${locale === "ar" ? address.governorate.governorate_name_ar : address.governorate.governorate_name_en}`}
                 </Text>
                 <RadioGroup.Item
-                  defaultValue={String(defaultValue)}
                   className="bg-whiteA-1 shadow-1 shadow-panel-translucent"
                   value={`${index}`}
                 />
