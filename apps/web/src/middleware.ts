@@ -24,9 +24,9 @@ const authMiddleware = withAuth(
     callbacks: {
       authorized: ({ req }) => {
         // verify token and return a boolean
-        console.log(req);
-        const sessionToken = req.cookies.get("next-auth.session-token");
-        console.log(sessionToken);
+        const sessionToken = req.cookies.get(
+          "__Secure-next-auth.session-token"
+        );
 
         if (sessionToken) return true;
         else return false;
