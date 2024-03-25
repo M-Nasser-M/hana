@@ -9,9 +9,9 @@ const Footer = () => {
         <NextLink href="/about-us">
           <Text as="span">ABOUT US</Text>
         </NextLink>
-        <NextLink href="/contact-us">
+        {/* <NextLink href="/contact-us">
           <Text as="span">CONTACT US</Text>
-        </NextLink>
+        </NextLink> */}
         <NextLink href="/privacy-policy">
           <Text as="span">PRIVACY POLICY</Text>
         </NextLink>

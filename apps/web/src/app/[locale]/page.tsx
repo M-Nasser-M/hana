@@ -44,8 +44,6 @@ export default async function Page({ params: { locale } }: Props) {
     getFeaturedProducts(locale),
   ]);
 
-  console.log(featuredResponse);
-
   const [validatedCat, validatedFeatured] = [
     safeParse(CategoriesSchema, catResponse),
     safeParse(ProductSearchResponseSchema, featuredResponse),

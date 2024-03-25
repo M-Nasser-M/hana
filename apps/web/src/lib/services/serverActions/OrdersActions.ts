@@ -39,7 +39,7 @@ export async function createOrder(
     console.error(
       error instanceof Error ? error.message : "order items Creation Error"
     );
-    if (error) console.log(error);
+    if (error) console.error(error);
     return null;
   }
 }

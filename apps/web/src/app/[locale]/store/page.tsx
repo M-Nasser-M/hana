@@ -63,7 +63,6 @@ const Page = async ({ params: { locale }, searchParams }: Props) => {
     return obj;
   }, {} as storeTranslations);
   const categories = await getCategoriesAndSubCategoriesData();
-  console.log(categories);
 
   const validatedCategories = safeParse(CategoriesSchema, categories);
 

@@ -22,7 +22,15 @@ const authMiddleware = withAuth(
   },
   {
     callbacks: {
-      authorized: ({ token }) => token != null,
+      authorized: ({ req }) => {
+        // verify token and return a boolean
+        console.log(req);
+        const sessionToken = req.cookies.get("next-auth.session-token");
+        console.log(sessionToken);
+
+        if (sessionToken) return true;
+        else return false;
+      },
     },
     pages: {
       signIn: "/api/auth/signin",
