@@ -11,7 +11,6 @@ export default $config({
     };
   },
   async run() {
-    const vpc = new aws.ec2.Vpc("hana-vpc", {}, { urn: "" });
-    new sst.aws.Nextjs("hana-site", { link: [vpc] });
+    new sst.aws.Nextjs("HanaSite", {});
   },
 });

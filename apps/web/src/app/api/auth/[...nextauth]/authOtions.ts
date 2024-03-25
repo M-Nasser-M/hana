@@ -1,4 +1,4 @@
-import InstagramProvider from "next-auth/providers/instagram";
+// import InstagramProvider from "next-auth/providers/instagram";
 import FacebookProvider from "next-auth/providers/facebook";
 import type { AuthOptions, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
@@ -20,10 +20,10 @@ export const options: AuthOptions = {
       clientId: serverEnv.FACEBOOK_CLIENT_ID,
       clientSecret: serverEnv.FACEBOOK_CLIENT_SECRET,
     }),
-    InstagramProvider({
-      clientId: serverEnv.INSTAGRAM_CLIENT_ID,
-      clientSecret: serverEnv.INSTAGRAM_CLIENT_SECRET,
-    }),
+    // InstagramProvider({
+    //   clientId: serverEnv.INSTAGRAM_CLIENT_ID,
+    //   clientSecret: serverEnv.INSTAGRAM_CLIENT_SECRET,
+    // }),
   ],
   session: { strategy: "jwt" },
   callbacks: {
