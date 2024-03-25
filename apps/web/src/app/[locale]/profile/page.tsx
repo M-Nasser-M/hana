@@ -5,6 +5,8 @@ import { AuthError, DataValidationError } from "@/lib/utils/exceptions";
 import { Avatar, Box, Flex, Separator, Text } from "@radix-ui/themes";
 import { options } from "@/app/api/auth/[...nextauth]/authOtions";
 import { GovernoratesSchema } from "@/lib/types/city-governorate";
+import { UserProfileSchema } from "@/lib/types/userProfile";
+import { unstable_noStore as noStore } from "next/cache";
 import { SessionSchema } from "@/lib/types/sharedTypes";
 import type { Locale } from "@/lib/types/sharedTypes";
 import { getServerSession } from "next-auth";
@@ -15,8 +17,6 @@ import {
   profileKeys,
   type profileTranslations,
 } from "../../../../messages/messagesKeys";
-import { UserProfileSchema } from "@/lib/types/userProfile";
-import { unstable_noStore as noStore } from "next/cache";
 
 const EditUserEmailForm = dynamic(() => import("./EditUserEmailForm"));
 const EditUserPhoneForm = dynamic(() => import("./EditUserPhoneForm"));
