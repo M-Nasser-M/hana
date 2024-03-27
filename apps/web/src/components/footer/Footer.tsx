@@ -4,7 +4,15 @@ import NextLink from "../NextLink";
 
 const Footer = () => {
   return (
-    <Flex className="shadow-1" justify="between" gap="4" py="4" px="6">
+    <Flex
+      className="shadow-1"
+      direction={{ initial: "column", md: "row" }}
+      justify={{ initial: "center", md: "between" }}
+      align={{ initial: "center", md: "baseline" }}
+      gap="4"
+      py="4"
+      px="6"
+    >
       <Flex gap="4">
         <NextLink href="/about-us">
           <Text as="span">ABOUT US</Text>
@@ -22,7 +30,7 @@ const Footer = () => {
           <Text as="span">REFUND AND RETURN</Text>
         </NextLink>
       </Flex>
-      <Flex gap="2">
+      <Flex justify="center" align="center" gap="2">
         <NextLink
           external
           href="https://www.facebook.com/Hanastorearts?mibextid=ZbWKwL"
