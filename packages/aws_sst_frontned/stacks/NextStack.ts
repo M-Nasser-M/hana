@@ -1,5 +1,3 @@
-import { StrapiStack } from "../../aws_sst_backend/stacks/StrapiStack";
-import { meiliStack } from "../../aws_sst_backend/stacks/Meilistack";
 import { HanaVPC } from "../../aws_sst_backend/stacks/VPCStack";
 import { NextjsSite, StackContext, use } from "sst/constructs";
 import { RetentionDays } from "aws-cdk-lib/aws-logs";
@@ -8,13 +6,10 @@ import { NextENV } from "../Env";
 export function NextStack({ stack }: StackContext) {
   const vpc = use(HanaVPC);
 
-  const strapi = use(StrapiStack);
-
-  const meili = use(meiliStack);
-
   const site = new NextjsSite(stack, "site", {
     path: "../../apps/web",
-    runtime: "nodejs20.x",
+    openNextVersion: "3.0.0-rc.3",
+    runtime: "nodejs18.x",
     cdk: {
       server: {
         vpc,
@@ -24,7 +19,6 @@ export function NextStack({ stack }: StackContext) {
         vpc,
       },
     },
-    bind: [strapi, meili],
     environment: {
       STRAPI_API_URL: NextENV.STRAPI_API_URL,
       STRAPI_API_TOKEN: NextENV.STRAPI_API_TOKEN,

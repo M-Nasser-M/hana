@@ -27,9 +27,11 @@ const Page = async ({ params: { slug } }: Props) => {
           blurDataURL={validatedDate.output.data.cover.placeholder}
         />
       </AspectRatio>
-      <Heading size="7">{validatedDate.output.data.title}</Heading>
+      <Heading className="text-crimson-9" size="7">
+        {validatedDate.output.data.title}
+      </Heading>
       <article
-        className="p-4"
+        className="prose prose-slate prose-headings:text-crimson-9 pro dark:prose-invert md:prose-lg lg:prose-xl"
         dangerouslySetInnerHTML={{
           __html: validatedDate.output.data.article,
         }}

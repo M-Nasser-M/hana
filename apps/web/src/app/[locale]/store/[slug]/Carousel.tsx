@@ -79,10 +79,10 @@ const Carousel = ({ images, cover }: Props) => {
                 <NextImage
                   key={image.id}
                   className="cursor-pointer"
-                  src={image.formats.thumbnail?.url || ""}
+                  src={image.formats.medium?.url || ""}
                   alt={image.alternativeText || ""}
-                  height={image.formats.thumbnail?.height || 0}
-                  width={image.formats.thumbnail?.width || 0}
+                  height={image.formats.medium?.height || 0}
+                  width={image.formats.medium?.width || 0}
                   placeholder="blur"
                   blurDataURL={image.placeholder}
                   onClick={() => setCurrentImage(image)}
