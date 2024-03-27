@@ -31,7 +31,7 @@ const Page = async ({ params: { slug } }: Props) => {
         {validatedDate.output.data.title}
       </Heading>
       <article
-        className="prose prose-slate prose-headings:text-crimson-9 pro dark:prose-invert md:prose-lg lg:prose-xl px-2"
+        className="prose prose-slate prose-headings:text-crimson-9 pro dark:prose-invert md:prose-lg lg:prose-xl px-2 lg:px-0"
         dangerouslySetInnerHTML={{
           __html: validatedDate.output.data.article,
         }}

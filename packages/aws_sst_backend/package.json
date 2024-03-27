@@ -17,6 +17,7 @@
     "aws-cdk-lib": "2.132.1",
     "constructs": "10.3.0",
     "typescript": "^5.4.2",
+    "@types/node": "20.11.30",
     "@tsconfig/node18": "^18.2.2"
   }
 }

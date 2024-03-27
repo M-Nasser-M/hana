@@ -8,7 +8,6 @@ export function NextStack({ stack }: StackContext) {
 
   const site = new NextjsSite(stack, "site", {
     path: "../../apps/web",
-    openNextVersion: "3.0.0-rc.3",
     runtime: "nodejs18.x",
     cdk: {
       server: {
